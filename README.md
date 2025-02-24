@@ -116,4 +116,4 @@ Feel free to fork, enhance, and submit pull requests. Areas for improvement:
 
 ## 📝 License
 
-MIT License - feel free to use and modify for educational purposes.
+Apache 2.0 License - feel free to use and modify for educational purposes.
