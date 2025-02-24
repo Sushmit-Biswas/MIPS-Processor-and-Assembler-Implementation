@@ -10,13 +10,20 @@ This project implements a MIPS processor simulator that executes common MIPS ass
 
 ### 1. Factorial Calculator
 ```mermaid
-flowchart LR
-    A[Input n] --> B[Initialize]
-    B --> C[Multiply]
-    C --> D{i < n?}
-    D -->|Yes| C
-    D -->|No| E[Store Result]
+flowchart TD
+    A[Start] --> B[Input n]
+    B --> C[Initialize: 
+    result = 1
+    i = 1]
+    C --> D{i <= n?}
+    D -->|Yes| E[result = result * i]
+    E --> F[i = i + 1]
+    F --> D
+    D -->|No| G[Store Result]
+    G --> H[End]
 ```
+
+- 🧮 Calculates factorial of a number
 - 🔄 Iterative implementation
 - 💾 Memory-efficient register usage
 - 🔢 Handles positive integers up to n=10
@@ -26,15 +33,16 @@ flowchart LR
 flowchart TD
     A[Start] --> B[Initialize bounds]
     B --> C[Calculate mid]
-    C --> D{Found?}
-    D -->|Yes| E[Return index]
-    D -->|No| F{arr[mid] > key?}
-    F -->|Yes| G[Update upper bound]
-    F -->|No| H[Update lower bound]
+    C --> D{Key Found?}
+    D --> |Yes| E[Return index]
+    D --> |No| F{Compare}
+    F --> |Key < mid| G[Update upper bound]
+    F --> |Key > mid| H[Update lower bound]
     G --> C
     H --> C
-    D -->|Bounds crossed| I[Return -1]
+    D --> |Bounds crossed| I[Return -1]
 ```
+- 🔍 Searches for a index-key in a sorted array
 - 📊 Works with sorted arrays
 - 🔍 Efficient searching algorithm
 - 📝 Returns index or -1 if not found
@@ -42,23 +50,15 @@ flowchart TD
 ## 🛠️ Technical Architecture
 
 ```mermaid
-graph TD
-    A[Instruction Memory] --> B[Processor Core]
-    C[Data Memory] --> B
-    B --> D[Register File]
-    B --> E[ALU]
-    E --> B
-```
-
-## 📁 Project Structure
-
-```
-MIPS_Project/
-├── 📜 Processor.py          # Main processor implementation
-├── 📄 assembler.py          # MIPS assembly to machine code
-├── 📝 AssemblyCode_*.asm    # Example programs
-└── 📚 Documentation/
-    └── 📊 Report.pdf        # Design & analysis
+flowchart TD
+    A[Instruction Memory] --> CU[Control Unit]
+    CU --> |Control Signals| RF[Register File]
+    CU --> |Control Signals| ALU[ALU]
+    RF --> |Data| ALU
+    ALU --> |Result| RF
+    DM[Data Memory] <--> |Load/Store| RF
+    PC[Program Counter] --> A
+    CU --> |Next PC| PC
 ```
 
 ## ⚙️ Features
@@ -76,22 +76,20 @@ MIPS_Project/
    python 3.x
    ```
 
-2. **Run the Simulator**
+2. **Run the assembler**
+   ```bash
+   python assembler.py
+   ```
+
+3. **Run the Simulator**
    ```bash
    python Processor.py
    ```
 
-3. **Test Assembly Programs**
+4. **Test Assembly Programs**
    - Use MARS MIPS simulator for assembly code verification
    - Load `.asm` files and execute
 
-## 🎮 Usage Example
-
-```python
-# Load and execute factorial program
-python Processor.py
-# View memory contents at 0x10010000 for result
-```
 
 ## 🔬 Instruction Support
 
