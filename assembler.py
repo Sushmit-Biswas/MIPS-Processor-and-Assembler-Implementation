@@ -1,3 +1,8 @@
+'''
+MIPS Assembler:-
+This script converts MIPS basic assembly language instructions into machine code.
+'''
+
 import os
 
 class MIPSAssembler:
